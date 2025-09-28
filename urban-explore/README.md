@@ -5,7 +5,7 @@ Este módulo contiene herramientas para la descarga, procesamiento, categorizaci
 ## Estructura del Proyecto
 
 ```
-exploration/
+urban-explore/
 ├── app/                          # Aplicación web FastAPI
 │   ├── app/
 │   │   ├── __init__.py
