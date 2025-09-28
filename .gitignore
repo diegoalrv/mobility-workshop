@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+
+# Logs
+logs
+*.log
+*.log.*
+
+# Environment files
+.env
+.env.*
+*.env
+*.env.*
+
+# Virtual environments
+.venv/
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Others
+*.swp
+*.swo
+*.bak
+*.tmp
+
+*.csv
