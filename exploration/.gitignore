@@ -1,0 +1,13 @@
+cache/
+data/
+pois-manager/setup.sh
+pois-manager/static/
+pois-manager/data/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+.DS_Store
+.env

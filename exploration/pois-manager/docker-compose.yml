@@ -1,0 +1,11 @@
+services:
+  poi-viewer:
+    build: .
+    container_name: poi-viewer
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./static:/app/static
+      - ./data:/app/data
+      - ./templates:/app/templates
+    restart: unless-stopped
