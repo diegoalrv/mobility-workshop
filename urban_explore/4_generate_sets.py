@@ -65,43 +65,69 @@ def pick_pois_for_profile(profile_name, rules, gdf):
     warnings = []
     selected = []
 
+    used_indices = set()
+
     if profile_name == "tourist":
         # 2 lugares turísticos
         turis = gdf[gdf["category"] == "tourist_places"]
         if len(turis) >= 2:
-            selected.extend(turis.sample(2, random_state=RANDOM_SEED).to_dict("records"))
+            sampled = turis.sample(2, random_state=RANDOM_SEED)
+            selected.extend(sampled.to_dict("records"))
+            used_indices.update(sampled.index)
         elif len(turis) == 1:
             selected.extend(turis.to_dict("records"))
+            used_indices.update(turis.index)
             warnings.append("⚠️ Solo se encontró 1 lugar turístico (se requerían 2).")
         else:
             warnings.append("⚠️ No hay lugares turísticos disponibles.")
 
         # 1 pub/bar
         pubs = gdf[gdf["category"] == "pub"]
+        pubs = pubs[~pubs.index.isin(used_indices)]
         if len(pubs) >= 1:
-            selected.extend(pubs.sample(1, random_state=RANDOM_SEED).to_dict("records"))
+            sampled = pubs.sample(1, random_state=RANDOM_SEED)
+            selected.extend(sampled.to_dict("records"))
+            used_indices.update(sampled.index)
         else:
             warnings.append("⚠️ No hay pubs/bars disponibles.")
         return selected, warnings
-    
+
     if profile_name == "shop_owner":
         # 2 storefronts
         stores = gdf[gdf["category"] == "storefront"]
         if len(stores) >= 2:
-            selected.extend(stores.sample(2, random_state=RANDOM_SEED).to_dict("records"))
+            sampled = stores.sample(2, random_state=RANDOM_SEED)
+            selected.extend(sampled.to_dict("records"))
+            used_indices.update(sampled.index)
         elif len(stores) == 1:
             selected.extend(stores.to_dict("records"))
+            used_indices.update(stores.index)
             warnings.append("⚠️ Solo se encontró 1 tienda (se requerían 2).")
         else:
             warnings.append("⚠️ No hay tiendas disponibles.")
 
         # 1 residential
         res = gdf[gdf["category"] == "residential"]
+        res = res[~res.index.isin(used_indices)]
         if len(res) >= 1:
-            selected.extend(res.sample(1, random_state=RANDOM_SEED).to_dict("records"))
+            sampled = res.sample(1, random_state=RANDOM_SEED)
+            selected.extend(sampled.to_dict("records"))
+            used_indices.update(sampled.index)
         else:
             warnings.append("⚠️ No hay áreas residenciales disponibles.")
         return selected, warnings
+
+    # Otros perfiles: 1 por cada categoría clave, sin duplicados
+    for cat_key in rules.keys():
+        subset = gdf[gdf["category"] == cat_key]
+        subset = subset[~subset.index.isin(used_indices)]
+        if len(subset) >= 1:
+            sampled = subset.sample(1, random_state=RANDOM_SEED)
+            selected.extend(sampled.to_dict("records"))
+            used_indices.update(sampled.index)
+        else:
+            warnings.append(f"⚠️ No hay elementos para categoría '{cat_key}'.")
+    return selected, warnings
 
     # Otros perfiles: 1 por cada categoría clave
     for cat_key in rules.keys():
