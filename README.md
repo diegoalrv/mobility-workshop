@@ -109,13 +109,7 @@ if __name__ == "__main__":
 ```
 mobility-workshop/
 ├── README.md                          # Este archivo
-├── railway.toml                       # Configuración de deployment
 ├── .gitignore                        # Archivos ignorados por Git
-├── exploration/                      # Módulo de exploración de datos
-│   ├── download_pois.py             # Descarga POIs con OSMnx
-│   ├── transform_pois.py            # Procesamiento y categorización
-│   ├── generate_sets.py             # Generación de conjuntos por perfil
-│   └── app/                         # Aplicación web FastAPI
 ├── urban-explore/
 │   └── pois-manager/                # 🚀 Aplicación desplegada
 │       ├── app/
@@ -146,10 +140,10 @@ MAPBOX_API_KEY=pk.eyJ1IjoiQ...
 ### Ejecutar Localmente
 ```bash
 cd urban-explore/pois-manager
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8080
 ```
 
-Visita: `http://localhost:8000`
+Visita: `http://localhost:8080`
 
 ## 📊 Endpoints de la API
 
@@ -182,7 +176,7 @@ La aplicación está desplegada en **Railway** con:
 - ✅ HTTPS incluido
 
 ### Redesplegar
-Los cambios se despliegan automáticamente al hacer push a la rama `main`.
+Los cambios se obtienen del Docker Hub `[diegoalrv/mobility-concepcion-workshop: latest](https://hub.docker.com/r/diegoalrv/mobility-concepcion-workshop)`.
 
 ## 📈 Métricas y Monitoreo
 
