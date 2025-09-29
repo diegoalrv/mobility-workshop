@@ -43,3 +43,13 @@ def used_sets(profile: str):
     rows = c.fetchall()
     conn.close()
     return {r[0] for r in rows}
+
+
+def used_uuids(profile: str):
+    """Devuelve todos los uuid usados para un profile dado"""
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT uuid FROM assignments WHERE profile=?", (profile,))
+    rows = c.fetchall()
+    conn.close()
+    return {r[0] for r in rows}

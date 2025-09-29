@@ -1,0 +1,94 @@
+<div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 20px;">
+    <h1 style="color: #333; text-align: center;">🗺️ POIs Manager - Concepción</h1>
+    <p style="text-align: center; color: #666; font-size: 18px;">Sistema de gestión de Points of Interest para Concepción, Chile</p>
+    
+    <div style="background: #f8f9fa; padding: 30px; border-radius: 12px; margin: 30px 0;">
+        <h2 style="color: #495057;">📱 Perfiles Disponibles:</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li style="padding: 10px; margin: 10px 0; background: white; border-radius: 8px; border-left: 4px solid #007bff;">
+                <strong>student</strong> - Estudiantes universitarios
+            </li>
+            <li style="padding: 10px; margin: 10px 0; background: white; border-radius: 8px; border-left: 4px solid #28a745;">
+                <strong>elderly</strong> - Adultos mayores
+            </li>
+            <li style="padding: 10px; margin: 10px 0; background: white; border-radius: 8px; border-left: 4px solid #ffc107;">
+                <strong>tourist</strong> - Turistas
+            </li>
+            <li style="padding: 10px; margin: 10px 0; background: white; border-radius: 8px; border-left: 4px solid #17a2b8;">
+                <strong>families</strong> - Familias con niños
+            </li>
+            <li style="padding: 10px; margin: 10px 0; background: white; border-radius: 8px; border-left: 4px solid #6f42c1;">
+                <strong>office_worker</strong> - Trabajadores de oficina
+            </li>
+            <li style="padding: 10px; margin: 10px 0; background: white; border-radius: 8px; border-left: 4px solid #e83e8c;">
+                <strong>shop_owner</strong> - Comerciantes locales
+            </li>
+        </ul>
+    </div>
+    
+    <div style="background: #e7f3ff; padding: 20px; border-radius: 8px; border: 1px solid #b3d9ff;">
+        <h3 style="color: #0066cc; margin-top: 0;">🔗 Comenzar:</h3>
+        <form id="start-form" style="margin-bottom: 0;">
+            <label for="profile" style="font-weight: bold; color: #0066cc;">Selecciona un perfil:</label>
+            <select id="profile" name="profile" required style="margin: 0 10px 10px 10px; padding: 5px; border-radius: 4px;">
+                <option value="" disabled selected>Elige un perfil</option>
+                <option value="student">Estudiante</option>
+                <option value="elderly">Adulto mayor</option>
+                <option value="tourist">Turista</option>
+                <option value="families">Familia con niños</option>
+                <option value="office_worker">Trabajador de oficina</option>
+                <option value="shop_owner">Comerciante local</option>
+            </select>
+            <div style="margin: 15px 0;">
+                <input type="radio" id="new" name="user_type" value="new" required>
+                <label for="new">Soy un usuario nuevo</label>
+                <input type="radio" id="existing" name="user_type" value="existing" style="margin-left:20px;">
+                <label for="existing">Ya tengo un UUID</label>
+            </div>
+            <div id="uuid-field" style="display:none; margin-bottom: 10px;">
+                <label for="uuid" style="color: #0066cc;">Ingresa tu UUID:</label>
+                <input type="text" id="uuid" name="uuid" style="margin-left: 10px; padding: 5px; border-radius: 4px;">
+            </div>
+            <button type="submit" style="background: #0066cc; color: #fff; border: none; border-radius: 4px; padding: 8px 16px; cursor: pointer;">Continuar</button>
+        </form>
+        <script>
+            const userTypeRadios = document.getElementsByName('user_type');
+            const uuidField = document.getElementById('uuid-field');
+            userTypeRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    uuidField.style.display = this.value === 'existing' ? 'block' : 'none';
+                });
+            });
+
+            document.getElementById('start-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const profile = document.getElementById('profile').value;
+                const userType = document.querySelector('input[name="user_type"]:checked').value;
+                if (!profile) {
+                    alert('Por favor selecciona un perfil.');
+                    return;
+                }
+                if (userType === 'new') {
+                    // Crear nuevo usuario usando el endpoint /join/{perfil}
+                    fetch(`/join/${profile}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.uuid) {
+                                window.location.href = `/viewer/${profile}/${data.uuid}`;
+                            } else {
+                                alert('Error al crear usuario.');
+                            }
+                        })
+                        .catch(() => alert('Error al crear usuario.'));
+                } else {
+                    const uuid = document.getElementById('uuid').value.trim();
+                    if (!uuid) {
+                        alert('Por favor ingresa tu UUID.');
+                        return;
+                    }
+                    window.location.href = `/viewer/${profile}/${uuid}`;
+                }
+            });
+        </script>
+    </div>
+</div>
