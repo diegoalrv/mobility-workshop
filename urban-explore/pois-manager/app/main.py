@@ -5,6 +5,10 @@ from pathlib import Path
 from .db import init_db, get_assignment, save_assignment, used_sets
 from fastapi.templating import Jinja2Templates
 from fastapi import Request
+import os
+import dotenv
+
+dotenv.load_dotenv()  # Cargar variables de entorno desde .env
 
 app = FastAPI()
 
@@ -55,11 +59,17 @@ def viewer(profile: str, uuid: str, request: Request):
 
     rel_path = set_file.replace("static/", "")
 
+    # Obtener API key de Mapbox desde variables de entorno
+    mapbox_api_key = os.getenv("MAPBOX_API_KEY")
+    if not mapbox_api_key:
+        return HTMLResponse("<h3>⚠️ Error: MAPBOX_API_KEY no configurada en .env</h3>")
+
     return templates.TemplateResponse(
         "viewer.html",
         {
             "request": request,
             "profile": profile,
             "rel_path": rel_path,
+            "mapbox_api_key": mapbox_api_key,
         }
     )

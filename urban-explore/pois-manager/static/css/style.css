@@ -1,0 +1,207 @@
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Panel de información */
+.info-panel {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 1000;
+}
+
+.info-panel h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.info-panel p {
+    text-align: center;
+    opacity: 0.9;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+/* Controles */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn.active {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+}
+
+/* Mapa */
+#map {
+    height: calc(100vh - 140px);
+    width: 100%;
+    position: relative;
+}
+
+/* Popups de Mapbox */
+.mapboxgl-popup-content {
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    font-family: inherit;
+    max-width: 300px;
+}
+
+.mapboxgl-popup-content h3 {
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.mapboxgl-popup-content .property {
+    display: flex;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.mapboxgl-popup-content .property-key {
+    font-weight: 600;
+    color: #555;
+    margin-right: 8px;
+    min-width: 80px;
+}
+
+.mapboxgl-popup-content .property-value {
+    color: #333;
+    word-break: break-word;
+}
+
+/* Loading spinner */
+.loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 1000;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Error message */
+.error-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ff4757;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+    z-index: 1000;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .info-panel {
+        padding: 15px;
+    }
+    
+    .info-panel h1 {
+        font-size: 1.5rem;
+    }
+    
+    .controls {
+        gap: 10px;
+    }
+    
+    .btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    #map {
+        height: calc(100vh - 120px);
+    }
+    
+    .mapboxgl-popup-content {
+        max-width: 250px;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .info-panel h1 {
+        font-size: 1.3rem;
+    }
+    
+    .controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        min-width: 120px;
+    }
+}
+
+/* Mapbox control customization */
+.mapboxgl-ctrl-group {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.mapboxgl-ctrl-group button {
+    background-color: white;
+}
+
+.mapboxgl-ctrl-group button:hover {
+    background-color: #f8f9fa;
+}

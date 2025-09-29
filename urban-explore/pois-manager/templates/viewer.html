@@ -4,100 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visor de Mapa - {{ profile }}</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-        }
-        #map {
-            height: 600px;
-            width: 100%;
-            border: 2px solid #333;
-            border-radius: 8px;
-        }
-        .info-panel {
-            background: #f0f0f0;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-        }
-    </style>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <div class="info-panel">
         <h1>Visor de Mapa - Perfil: {{ profile }}</h1>
         <p><strong>Archivo de datos:</strong> {{ rel_path }}</p>
+        <div class="controls">
+            <button id="togglePois" class="btn">Ocultar POIs</button>
+            <button id="toggleArea" class="btn">Ocultar Área</button>
+        </div>
     </div>
     
     <div id="map"></div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Inicializar el mapa
-        const map = L.map('map').setView([19.4326, -99.1332], 10); // Ciudad de México por defecto
-
-        // Añadir capa base de OpenStreetMap
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
-        // Cargar y mostrar el archivo GeoJSON principal
-        fetch('/static/{{ rel_path }}')
-            .then(response => response.json())
-            .then(data => {
-            // Añadir GeoJSON al mapa
-            const geoJsonLayer = L.geoJSON(data, {
-                style: function(feature) {
-                return {
-                    color: '#3388ff',
-                    weight: 2,
-                    opacity: 0.8,
-                    fillOpacity: 0.3
-                };
-                },
-                onEachFeature: function(feature, layer) {
-                // Añadir popup con información de la característica
-                if (feature.properties) {
-                    let popupContent = '<div>';
-                    for (let key in feature.properties) {
-                    popupContent += `<strong>${key}:</strong> ${feature.properties[key]}<br>`;
-                    }
-                    popupContent += '</div>';
-                    layer.bindPopup(popupContent);
-                }
-                }
-            }).addTo(map);
-
-
-            // Cargar y mostrar el polígono adicional
-            fetch('/static/geometries/area_mobility_workshop.geojson')
-                .then(response => response.json())
-                .then(areaData => {
-                const areaLayer = L.geoJSON(areaData, {
-                    style: {
-                        color: '#ff6600',
-                        weight: 3,
-                        opacity: 0.9,
-                        fillOpacity: 0.1
-                    }
-                }).addTo(map);
-                // Asegurarse de que el área esté visible, ajustando estrecho al área
-                map.fitBounds(areaLayer.getBounds());
-                })
-                .catch(error => {
-                console.error('Error al cargar el polígono de área:', error);
-                });
-            })
-            .catch(error => {
-                console.error('Error al cargar el archivo GeoJSON:', error);
-                alert('Error al cargar los datos del mapa');
-            });
+        // Configuración del mapa
+        window.mapConfig = {
+            apiKey: '{{ mapbox_api_key }}',
+            profile: '{{ profile }}',
+            relPath: '{{ rel_path }}',
+            center: [-73.0586, -36.8274], // Concepción, Chile
+            zoom: 10
+        };
     </script>
+    <script src="/static/js/script.js"></script>
 </body>
 </html>
