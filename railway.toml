@@ -1,11 +1,6 @@
 [build]
 builder = "nixpacks"
-buildCommand = "cd urban-explore/pois-manager && pip install -r requirements.txt"
 
 [deploy]
-startCommand = "cd urban-explore/pois-manager && python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"
+startCommand = "uvicorn urban_explore.pois_manager.app.main:app --host 0.0.0.0 --port ${PORT:-8000}"
 healthcheckPath = "/health"
-healthcheckTimeout = 30
-
-[variables]
-# Variables se configuran en la web interface de Railway

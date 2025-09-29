@@ -1,0 +1,28 @@
+# Jupyter Notebook
+# notebook
+# jupyterlab
+
+# Data Analysis
+numpy
+pandas
+scipy
+# matplotlib
+# seaborn
+
+# Geospatial Data
+geopandas
+shapely
+fiona
+pyproj
+rasterio
+# folium
+
+# Other Utilities
+# s3fs
+python-dotenv
+pyarrow
+openpyxl
+
+# # Optional: Interactive widgets
+# ipython
+# ipywidgets
