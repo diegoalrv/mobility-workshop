@@ -21,6 +21,7 @@ folium
 s3fs
 python-dotenv
 pyarrow
+openpyxl
 
 # Optional: Interactive widgets
 ipython
