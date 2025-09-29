@@ -1,0 +1,29 @@
+# Node modules
+node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+jspm_packages/
+
+# Build output
+dist
+build
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker files
+Dockerfile*
+.dockerignore
+
+# Environment files
+.env
+.env.*
+
+push_container.sh
+test_container.sh

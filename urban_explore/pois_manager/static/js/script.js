@@ -4,6 +4,7 @@ let poisLayer = null;
 let areaLayer = null;
 let poisVisible = true;
 let areaVisible = true;
+const github_raw_base = 'https://raw.githubusercontent.com/diegoalrv/mobility-workshop/refs/heads/pois-manager/urban_explore/pois_manager';
 
 // Estilos para diferentes categorías de POIs
 const poiStyles = {
@@ -106,10 +107,12 @@ async function loadMapData() {
 
 async function loadPois() {
     try {
-        const response = await fetch(`/static/${window.mapConfig.relPath}`);
+        var dataUrl = `${github_raw_base}/${window.mapConfig.relPath}`
+        const response = await fetch(dataUrl);
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
+    
         
         const data = await response.json();
         
@@ -200,7 +203,7 @@ async function loadPois() {
 
 async function loadArea() {
     try {
-        const areaUrl = 'https://raw.githubusercontent.com/diegoalrv/mobility-workshop/refs/heads/pois-manager/urban-explore/pois-manager/static/geometries/area_mobility_workshop.geojson';
+        const areaUrl = `${github_raw_base}/static/geometries/area_mobility_workshop.geojson`;
         // Cargar el área directamente desde GitHub usando areaUrl
         const response = await fetch(areaUrl);
         if (!response.ok) {

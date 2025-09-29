@@ -1,0 +1,1 @@
+docker stop pm && docker rm pm && docker rmi pois_manager && docker build -t pois_manager . && docker run --name pm --env-file .env -p 8080:8080 -d pois_manager

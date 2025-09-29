@@ -1,7 +1,5 @@
 cache/
-data/
 pois-manager/setup.sh
-pois-manager/data/
 __pycache__/
 *.pyc
 *.pyo
