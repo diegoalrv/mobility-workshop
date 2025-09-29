@@ -11,9 +11,10 @@ gdf = gpd.read_parquet(input_path)
 
 # Seleccionar columnas útiles para identificar los POIs
 # Ajusta los nombres de columnas según tu archivo
-cols_to_keep = ['name', 'category']
-cols_present = [col for col in cols_to_keep if col in gdf.columns]
-gdf_filtered = gdf[cols_present]
+# cols_to_keep = ['name', 'category']
+# cols_present = [col for col in cols_to_keep if col in gdf.columns]
+# gdf_filtered = gdf[cols_present]
+gdf_filtered = gdf.copy()
 df = pd.DataFrame(gdf_filtered)
 # Guardar a Excel para filtrar manualmente
 os.makedirs('./data', exist_ok=True)

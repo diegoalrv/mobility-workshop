@@ -13,9 +13,9 @@ from pathlib import Path
 # CONFIGURACIÓN
 # =====================
 
-INPUT_FILE = "./data/pois_categorizados_filtrados.parquet"
+INPUT_FILE = "./data/pois_categorizados_filtrados_refinados.parquet"
 OUTPUT_BASE = Path("./data/places")
-SETS_PER_PROFILE = 100    # <-- Cuántos sets generar por perfil
+SETS_PER_PROFILE = 200    # <-- Cuántos sets generar por perfil
 RANDOM_SEED = None        # Fijar semilla para reproducibilidad (None para aleatorio cada vez)
 
 # =====================
