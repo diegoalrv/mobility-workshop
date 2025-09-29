@@ -29,7 +29,7 @@ def extract_pois_from_polygon(polygon_gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame
         polygon_gdf = polygon_gdf.to_crs("EPSG:4326")
 
     # Si hay varias geometrías, unirlas en una sola
-    area_geom = polygon_gdf.unary_union
+    area_geom = polygon_gdf.union_all()
 
     categories = {
         "storefront": {"shop": True},
@@ -45,7 +45,6 @@ def extract_pois_from_polygon(polygon_gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame
         "school": {"amenity": "school"},
         "office": {"office": True},
         "plaza": {"leisure": "plaza", "amenity": "town_square"},
-        # 🔥 NUEVA CATEGORÍA GIMNASIOS
         "gym": {"amenity": "gym", "leisure": "fitness_centre", "sport": ["fitness", "gymnastics"]},
     }
 
@@ -80,13 +79,14 @@ def extract_pois_from_polygon(polygon_gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame
 
 if __name__ == "__main__":
     # 👉 Carga tu polígono
-    roi = gpd.read_file("./data/area_mobility_workshop")
+    roi = gpd.read_file("./pois-manager/static/geometries/area_mobility_workshop.geojson")
 
     pois_gdf = extract_pois_from_polygon(roi)
 
     print(f"\nTotal de POIs descargados: {len(pois_gdf)}")
     print(pois_gdf[["main_category", "geometry"]].head())
-
+    import os
+    os.makedirs("./data", exist_ok=True)
     # Exportar resultados
     pois_gdf.to_file("./data/pois.gpkg", layer="pois", driver="GPKG")
     pois_gdf.to_file("./data/pois.geojson", driver="GeoJSON")

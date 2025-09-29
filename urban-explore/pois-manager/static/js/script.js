@@ -74,15 +74,6 @@ function initializeMap() {
 }
 
 function setupEventListeners() {
-    // Botón para alternar POIs
-    const togglePoisBtn = document.getElementById('togglePois');
-    if (togglePoisBtn) {
-        togglePoisBtn.addEventListener('click', function() {
-            togglePois();
-            this.textContent = poisVisible ? 'Ocultar POIs' : 'Mostrar POIs';
-            this.classList.toggle('active', !poisVisible);
-        });
-    }
 
     // Botón para alternar área
     const toggleAreaBtn = document.getElementById('toggleArea');
@@ -209,7 +200,9 @@ async function loadPois() {
 
 async function loadArea() {
     try {
-        const response = await fetch('/static/geometries/area_mobility_workshop.geojson');
+        const areaUrl = 'https://raw.githubusercontent.com/diegoalrv/mobility-workshop/refs/heads/pois-manager/urban-explore/pois-manager/static/geometries/area_mobility_workshop.geojson';
+        // Cargar el área directamente desde GitHub usando areaUrl
+        const response = await fetch(areaUrl);
         if (!response.ok) {
             console.warn('No se pudo cargar el área de interés');
             return;
@@ -229,8 +222,8 @@ async function loadArea() {
             type: 'fill',
             source: 'area',
             paint: {
-                'fill-color': '#ff6600',
-                'fill-opacity': 0.1
+            'fill-color': '#ff6600',
+            'fill-opacity': 0.1
             }
         });
 
@@ -240,9 +233,9 @@ async function loadArea() {
             type: 'line',
             source: 'area',
             paint: {
-                'line-color': '#ff6600',
-                'line-width': 3,
-                'line-opacity': 0.8
+            'line-color': '#ff6600',
+            'line-width': 3,
+            'line-opacity': 0.8
             }
         });
 
@@ -253,7 +246,7 @@ async function loadArea() {
         }
 
         areaLayer = 'area';
-        console.log('✅ Área de interés cargada');
+        console.log('✅ Área de interés cargada desde GitHub');
 
     } catch (error) {
         console.warn('No se pudo cargar el área de interés:', error);

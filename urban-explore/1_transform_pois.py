@@ -14,7 +14,7 @@ from pathlib import Path
 # =====================
 
 INPUT_POIS_FILE = "./data/pois.gpkg"
-INPUT_ROI_FILE = "./data/area_mobility_workshop"
+INPUT_ROI_FILE = "./pois-manager/static/geometries/area_mobility_workshop.geojson"
 OUTPUT_GPKG = "./data/pois_categorizados.gpkg"
 OUTPUT_GEOJSON = "./data/pois_categorizados.geojson"
 OUTPUT_PARQUET = "./data/pois_categorizados_filtrados.parquet"
