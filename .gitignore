@@ -6,16 +6,22 @@ logs
 *.log
 *.log.*
 
-# Environment files
+# Environment variables - NEVER COMMIT
 .env
-.env.*
 *.env
-*.env.*
+*/.env
+urban-explore/pois-manager/.env
+
+# Database files
+*.db
+*/*.db
+urban-explore/pois-manager/*.db
 
 # Virtual environments
 .venv/
 
-# OS generated files
+# OS files
+.DS_Store
 Thumbs.db
 ehthumbs.db
 Desktop.ini

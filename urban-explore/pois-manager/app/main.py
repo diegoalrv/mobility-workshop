@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import os
 
 # Cargar .env SOLO si existe (desarrollo local)
+
 if Path(".env").exists():
     load_dotenv()
     print("🔑 Cargando variables desde .env (desarrollo)")
