@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 import os
 
 # Cargar .env SOLO si existe (desarrollo local)
-
 if Path(".env").exists():
     load_dotenv()
     print("🔑 Cargando variables desde .env (desarrollo)")
@@ -31,7 +30,7 @@ print(f"✅ Mapbox API Key configurada: {MAPBOX_API_KEY[:10]}...")
 # Configuración de directorios
 BASE_DIR = Path(__file__).parent.parent
 SETS_BASE = BASE_DIR / "static" / "places"
-STATIC_DIR = BASE_DIR / "static"
+STATIC_DIR = BASE_DIR / "static" 
 TEMPLATES_DIR = BASE_DIR / "templates"
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
@@ -94,16 +93,6 @@ def health_check():
         "profiles": ["student", "elderly", "tourist", "families", "office_worker", "shop_owner"]
     }
 
-SETS_BASE = Path("static/places")
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# Inicializar templates una sola vez a nivel global
-templates = Jinja2Templates(directory="templates")
-
-@app.on_event("startup")
-def startup_event():
-    init_db()
-
 @app.get("/join/{profile}")
 def join(profile: str, uuid: str = None):
     profile_path = SETS_BASE / profile
@@ -147,6 +136,6 @@ def viewer(profile: str, uuid: str, request: Request):
             "request": request,
             "profile": profile,
             "rel_path": rel_path,
-            "mapbox_api_key": MAPBOX_API_KEY,  # Usar la variable global
+            "mapbox_api_key": MAPBOX_API_KEY,
         }
     )
