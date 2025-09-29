@@ -182,6 +182,6 @@ print("\n🏁 Proceso completado. Revisa la carpeta ./data/places/")
 # Ahora puedes copia ./data/places/ a ./app/static/places/ para que la app lo use.
 
 import shutil
-shutil.copytree(OUTPUT_BASE, Path("./pois-manager/static/places"), dirs_exist_ok=True)
-print("📂 Copiados los sets a ./pois-manager/static/places/ para la app.")
+shutil.copytree(OUTPUT_BASE, Path("./pois_manager/static/places"), dirs_exist_ok=True)
+print("📂 Copiados los sets a ./pois_manager/static/places/ para la app.")
 
