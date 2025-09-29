@@ -166,8 +166,13 @@ async function loadPois() {
         map.on('click', 'pois-pins', function(e) {
             const coordinates = e.features[0].geometry.coordinates.slice();
             const properties = e.features[0].properties;
+            // Filtrar solo para crear popup con nombre y categoría
+            const filteredProperties = {
+                name: properties.name || properties.Name || 'Sin nombre',
+                category: properties.category || 'default'
+            };
 
-            let popupContent = createPopupContent(properties, coordinates);
+            let popupContent = createPopupContent(filteredProperties, coordinates);
 
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
@@ -178,7 +183,6 @@ async function loadPois() {
                 .setHTML(popupContent)
                 .addTo(map);
         });
-
 
         // Cambiar cursor en hover
         map.on('mouseenter', 'pois-pins', function() {
@@ -260,7 +264,7 @@ function createPopupContent(properties, coordinates) {
     const category = properties.category || 'default';
     const style = poiStyles[category] || poiStyles.default;
     const name = properties.name || properties.Name || 'Sin nombre';
-    const [lng, lat] = coordinates; // ← añadimos coordenadas
+    const [lng, lat] = coordinates;
 
     let content = `
         <div>
@@ -301,11 +305,32 @@ function createPopupContent(properties, coordinates) {
         }
     });
 
-    // 🔗 Enlace a Google Maps con coordenadas
+    // 🔗 Enlace a Google Maps con estilo mejorado
     content += `
-        <div style="margin-top:8px;">
+        <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid #e0e0e0;">
             <a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" 
-               target="_blank" style="color:#0078ff;text-decoration:underline;">
+               target="_blank" 
+               class="google-maps-btn"
+               style="
+                   display: inline-flex;
+                   align-items: center;
+                   gap: 8px;
+                   background: #4285f4;
+                   color: white;
+                   text-decoration: none;
+                   padding: 8px 12px;
+                   border-radius: 4px;
+                   font-size: 14px;
+                   font-weight: 500;
+                   font-family: 'Product Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+                   transition: all 0.2s ease;
+                   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+               "
+               onmouseover="this.style.background='#3367d6'; this.style.boxShadow='0 2px 6px rgba(0,0,0,0.16), 0 2px 4px rgba(0,0,0,0.32)'; this.style.transform='translateY(-1px)';"
+               onmouseout="this.style.background='#4285f4'; this.style.boxShadow='0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)'; this.style.transform='translateY(0)';">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
                 Ver en Google Maps
             </a>
         </div>
@@ -315,16 +340,14 @@ function createPopupContent(properties, coordinates) {
     return content;
 }
 
-
 function togglePois() {
     if (!map || !poisLayer) return;
     
     poisVisible = !poisVisible;
     const visibility = poisVisible ? 'visible' : 'none';
     
-    map.setLayoutProperty('clusters', 'visibility', visibility);
-    map.setLayoutProperty('cluster-count', 'visibility', visibility);
-    map.setLayoutProperty('unclustered-point', 'visibility', visibility);
+    // Corregir para usar la capa correcta
+    map.setLayoutProperty('pois-pins', 'visibility', visibility);
 }
 
 function toggleArea() {
