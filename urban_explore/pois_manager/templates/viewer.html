@@ -2,19 +2,20 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="data:,">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visor de Mapa - {{ profile }}</title>
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
-    <!-- Añadir Turf.js -->
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+    <script src="https://survey123.arcgis.com/api/jsapi"></script>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <div class="info-panel">
         <h1>Workshop Movilidad</h1>
-        <p><strong>{{ profile }}</strong></p>
-        <h2>UUID del Usuario: <strong>{{ uuid }}</strong></h2>
+        <p><strong>Perfil:</strong> {{ profile }}</p>
+        <p><strong>Usuario:</strong> {{ uuid }}</p>
         <div class="controls">
             <button id="toggleArea" class="btn">Ocultar Área</button>
         </div>
@@ -22,14 +23,14 @@
 
     <div id="map"></div>
 
-    <!-- 🚀 BOTÓN FLOTANTE -->
-    <button id="survey-fab" class="floating-action-button" title="Abrir Encuesta">
+    <!-- Botón flotante para encuesta -->
+    <button id="survey-fab" class="floating-action-button" title="Abrir Encuesta de Movilidad">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
             <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
         </svg>
     </button>
 
-    <!-- 🚀 MODAL DE ENCUESTA (inicialmente oculto) -->
+    <!-- Modal de encuesta -->
     <div id="survey-modal" class="survey-modal">
         <div class="survey-modal-content">
             <div class="survey-modal-header">
@@ -37,119 +38,33 @@
                 <button id="close-survey" class="close-button">&times;</button>
             </div>
             <div class="survey-modal-body">
-                <div id="survey123" class="survey-container"></div>
+                <div id="survey123" class="survey-container">
+                    <div class="survey-loading">
+                        <div class="loading-spinner-modal"></div>
+                        <div class="loading-text">Cargando encuesta...</div>
+                        <div class="loading-subtitle">Por favor espera un momento</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- 🚀 OVERLAY DE FONDO -->
+    <!-- Overlay de fondo -->
     <div id="survey-overlay" class="survey-overlay"></div>
 
+    <!-- Configuración global - SOLO esto -->
     <script>
         window.mapConfig = {
             apiKey: '{{ mapbox_api_key }}',
             profile: '{{ profile }}',
             relPath: '{{ rel_path }}',
+            uuid: '{{ uuid }}',
             center: [-73.0586, -36.8274],
             zoom: 13
         };
     </script>
 
+    <!-- Script principal - TODO centralizado aquí -->
     <script src="/static/js/script.js"></script>
-
-    <!-- 🚀 NUEVO: librería Survey123 -->
-    <script src="https://survey123.arcgis.com/api/jsapi"></script>
-
-    <!-- 🚀 NUEVO: lógica del modal y encuesta -->
-    <script>
-        const SURVEY_ITEM_ID = "50c150f7931e43c389b5bb2ceac75cbc";
-
-        // Referencias a elementos del DOM
-        const surveyFab = document.getElementById('survey-fab');
-        const surveyModal = document.getElementById('survey-modal');
-        const surveyOverlay = document.getElementById('survey-overlay');
-        const closeSurvey = document.getElementById('close-survey');
-
-        let survey = null;
-        let surveyInitialized = false;
-
-        // Función para abrir el modal
-        function openSurveyModal() {
-            surveyModal.classList.add('active');
-            surveyOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevenir scroll
-
-            // Inicializar encuesta solo la primera vez
-            if (!surveyInitialized) {
-                initializeSurvey();
-            }
-        }
-
-        // Función para cerrar el modal
-        function closeSurveyModal() {
-            surveyModal.classList.remove('active');
-            surveyOverlay.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Restaurar scroll
-        }
-
-        // Inicializar Survey123
-        function initializeSurvey() {
-            try {
-                survey = new Survey123WebForm({
-                    container: "survey123",
-                    itemId: SURVEY_ITEM_ID,
-                    // Parámetros adicionales si los necesitas
-                    // portalUrl: "https://www.arcgis.com"
-                });
-
-                survey.on("ready", () => {
-                    console.log("✅ Encuesta lista");
-                    surveyInitialized = true;
-                });
-
-                survey.on("submit", (response) => {
-                    console.log("📨 Respuesta enviada:", response);
-                    
-                    // Mostrar mensaje de éxito
-                    const successMsg = document.createElement('div');
-                    successMsg.className = 'success-message';
-                    successMsg.innerHTML = `
-                        <div class="success-content">
-                            <h3>¡Gracias! 🎉</h3>
-                            <p>Tu respuesta se ha enviado correctamente</p>
-                        </div>
-                    `;
-                    document.body.appendChild(successMsg);
-
-                    // Cerrar modal después de 2 segundos
-                    setTimeout(() => {
-                        closeSurveyModal();
-                        successMsg.remove();
-                    }, 2000);
-                });
-
-                survey.on("survey123-error", (err) => {
-                    console.error("⚠️ Error Survey123:", err);
-                    alert("Hubo un problema cargando la encuesta. Por favor, intenta nuevamente.");
-                });
-
-            } catch (error) {
-                console.error("❌ Error inicializando Survey123:", error);
-                alert("No se pudo cargar la encuesta. Verifica la conexión a internet.");
-            }
-        }
-
-        // Event listeners
-        surveyFab.addEventListener('click', openSurveyModal);
-        closeSurvey.addEventListener('click', closeSurveyModal);
-        surveyOverlay.addEventListener('click', closeSurveyModal);
-
-        // Cerrar con tecla Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && surveyModal.classList.contains('active')) {
-                closeSurveyModal();
-            }
-        });
-    </script>
 </body>
 </html>
