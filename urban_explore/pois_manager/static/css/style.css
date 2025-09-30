@@ -149,7 +149,283 @@ body {
     z-index: 1000;
 }
 
-/* Responsive design */
+/* =============================================
+   BOTÓN FLOTANTE Y MODAL DE ENCUESTA
+   ============================================= */
+
+/* Botón flotante (FAB) */
+.floating-action-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floating-action-button:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.floating-action-button:active {
+    transform: translateY(0) scale(0.95);
+}
+
+/* Animación de pulsación */
+.floating-action-button::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s ease;
+}
+
+.floating-action-button:active::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Overlay de fondo */
+.survey-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 1999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.survey-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Modal de encuesta */
+.survey-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.9);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.survey-modal.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+/* Contenido del modal */
+.survey-modal-content {
+    background: white;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 900px;
+    height: 90vh;
+    max-height: 800px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Header del modal */
+.survey-modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.survey-modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+/* Botón de cerrar */
+.close-button {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.close-button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: rotate(90deg) scale(1.05);
+}
+
+/* Cuerpo del modal */
+.survey-modal-body {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    background: #fafafa;
+}
+
+/* Contenedor de Survey123 - MEJORADO */
+.survey-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: white;
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+}
+
+/* Estilización del iframe de Survey123 */
+.survey-container iframe {
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+    border-radius: 0 0 20px 20px;
+    background: white;
+    position: relative;
+    z-index: 2;
+}
+
+/* Loading state mejorado */
+.survey-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    border-radius: 0 0 20px 20px;
+}
+
+.survey-loading .loading-spinner-modal {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #e9ecef;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spinModal 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.survey-loading .loading-text {
+    color: #6c757d;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.survey-loading .loading-subtitle {
+    color: #adb5bd;
+    font-size: 14px;
+    text-align: center;
+}
+
+@keyframes spinModal {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Ocultar loading cuando está cargado */
+.survey-container.loaded .survey-loading {
+    display: none;
+}
+
+/* Mensaje de éxito */
+.success-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    padding: 35px 45px;
+    border-radius: 20px;
+    box-shadow: 0 15px 50px rgba(40, 167, 69, 0.4);
+    z-index: 3000;
+    text-align: center;
+    animation: successFadeIn 0.5s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.success-content h3 {
+    margin: 0 0 12px 0;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.success-content p {
+    margin: 0;
+    opacity: 0.95;
+    font-size: 1rem;
+}
+
+@keyframes successFadeIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Responsive design para móviles */
 @media (max-width: 768px) {
     .info-panel {
         padding: 15px;
@@ -176,6 +452,60 @@ body {
         max-width: 250px;
         padding: 12px;
     }
+
+    .floating-action-button {
+        bottom: 20px;
+        right: 20px;
+        width: 56px;
+        height: 56px;
+    }
+
+    .survey-modal {
+        padding: 10px;
+    }
+
+    .survey-modal-content {
+        width: 100%;
+        height: 95vh;
+        max-height: none;
+        border-radius: 16px;
+    }
+
+    .survey-modal-header {
+        padding: 20px 25px;
+    }
+
+    .survey-modal-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .close-button {
+        width: 40px;
+        height: 40px;
+        font-size: 22px;
+    }
+
+    .success-message {
+        width: 90%;
+        max-width: 320px;
+        padding: 25px 30px;
+    }
+
+    .success-content h3 {
+        font-size: 1.4rem;
+    }
+
+    .survey-container {
+        border-radius: 0 0 16px 16px;
+    }
+
+    .survey-container iframe {
+        border-radius: 0 0 16px 16px;
+    }
+
+    .survey-loading {
+        border-radius: 0 0 16px 16px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -191,6 +521,48 @@ body {
     .btn {
         min-width: 120px;
     }
+
+    .floating-action-button {
+        width: 50px;
+        height: 50px;
+        bottom: 15px;
+        right: 15px;
+    }
+
+    .survey-modal {
+        padding: 5px;
+    }
+
+    .survey-modal-content {
+        height: 98vh;
+        border-radius: 12px;
+    }
+
+    .survey-modal-header {
+        padding: 18px 20px;
+    }
+
+    .survey-modal-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .close-button {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+    }
+
+    .survey-container {
+        border-radius: 0 0 12px 12px;
+    }
+
+    .survey-container iframe {
+        border-radius: 0 0 12px 12px;
+    }
+
+    .survey-loading {
+        border-radius: 0 0 12px 12px;
+    }
 }
 
 /* Mapbox control customization */
@@ -204,4 +576,16 @@ body {
 
 .mapboxgl-ctrl-group button:hover {
     background-color: #f8f9fa;
+}
+
+/* Estilos adicionales para mejor integración */
+.survey-modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    z-index: 10;
 }

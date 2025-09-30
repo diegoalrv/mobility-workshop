@@ -401,3 +401,57 @@ function loadTurf() {
 
 // Cargar Turf.js para cálculos geográficos
 loadTurf();
+
+// Inicializar Survey123
+function initializeSurvey() {
+    try {
+        const surveyContainer = document.getElementById('survey123');
+        
+        survey = new Survey123WebForm({
+            container: "survey123",
+            itemId: SURVEY_ITEM_ID,
+            // Configuración adicional para mejor integración
+            width: "100%",
+            height: "100%"
+        });
+
+        survey.on("ready", () => {
+            console.log("✅ Encuesta lista");
+            surveyInitialized = true;
+            // Marcar como cargado para ocultar el loading
+            surveyContainer.classList.add('loaded');
+        });
+
+        survey.on("submit", (response) => {
+            console.log("📨 Respuesta enviada:", response);
+            
+            // Mostrar mensaje de éxito
+            const successMsg = document.createElement('div');
+            successMsg.className = 'success-message';
+            successMsg.innerHTML = `
+                <div class="success-content">
+                    <h3>¡Gracias! 🎉</h3>
+                    <p>Tu respuesta se ha enviado correctamente</p>
+                </div>
+            `;
+            document.body.appendChild(successMsg);
+
+            // Cerrar modal después de 2 segundos
+            setTimeout(() => {
+                closeSurveyModal();
+                successMsg.remove();
+                // Reset loading state para próxima vez
+                surveyContainer.classList.remove('loaded');
+            }, 2000);
+        });
+
+        survey.on("survey123-error", (err) => {
+            console.error("⚠️ Error Survey123:", err);
+            alert("Hubo un problema cargando la encuesta. Por favor, intenta nuevamente.");
+        });
+
+    } catch (error) {
+        console.error("❌ Error inicializando Survey123:", error);
+        alert("No se pudo cargar la encuesta. Verifica la conexión a internet.");
+    }
+}
