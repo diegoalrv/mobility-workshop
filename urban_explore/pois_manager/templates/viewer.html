@@ -1,70 +1,72 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="data:,">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visor de Mapa - {{ profile }}</title>
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
-    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-    <script src="https://survey123.arcgis.com/api/jsapi"></script>
-    <link rel="stylesheet" href="/static/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Citylab Viewer - {{ profile }}</title>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+  <script src="https://survey123.arcgis.com/api/jsapi"></script>
+  <link rel="stylesheet" href="/static/css/style.css">
 </head>
-<body>
-    <div class="info-panel">
-        <h1>Workshop Movilidad</h1>
-        <p><strong>Perfil:</strong> {{ profile }}</p>
-        <p><strong>Usuario:</strong> {{ uuid }}</p>
-        <div class="controls">
-            <button id="toggleArea" class="btn">Ocultar Área</button>
-        </div>
+<body class="viewer-page">
+  <header class="viewer-header">
+    <div class="logo">Citylab Biobío</div>
+    <div class="viewer-info">
+      <span>Perfil: <strong>{{ profile }}</strong></span>
+      <span>ID: <strong>{{ uuid }}</strong></span>
     </div>
-
-    <div id="map"></div>
-
-    <!-- Botón flotante para encuesta -->
-    <button id="survey-fab" class="floating-action-button" title="Abrir Encuesta de Movilidad">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-        </svg>
-    </button>
-
-    <!-- Modal de encuesta -->
-    <div id="survey-modal" class="survey-modal">
-        <div class="survey-modal-content">
-            <div class="survey-modal-header">
-                <h2>📋 Encuesta de Movilidad</h2>
-                <button id="close-survey" class="close-button">&times;</button>
-            </div>
-            <div class="survey-modal-body">
-                <div id="survey123" class="survey-container">
-                    <div class="survey-loading">
-                        <div class="loading-spinner-modal"></div>
-                        <div class="loading-text">Cargando encuesta...</div>
-                        <div class="loading-subtitle">Por favor espera un momento</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="viewer-controls">
+      <label class="switch">
+        <input type="checkbox" id="toggleArea" checked>
+        <span class="slider"></span> Área
+      </label>
     </div>
+  </header>
 
-    <!-- Overlay de fondo -->
-    <div id="survey-overlay" class="survey-overlay"></div>
+  <aside class="sidebar" id="sidebar">
+    <h3>Capas</h3>
+    <label><input type="checkbox" id="layer-pois" checked> Puntos de interés</label>
+    <label><input type="checkbox" id="layer-area" checked> Área de estudio</label>
+  </aside>
 
-    <!-- Configuración global - SOLO esto -->
-    <script>
-        window.mapConfig = {
-            apiKey: '{{ mapbox_api_key }}',
-            profile: '{{ profile }}',
-            relPath: '{{ rel_path }}',
-            uuid: '{{ uuid }}',
-            center: [-73.0586, -36.8274],
-            zoom: 13
-        };
-    </script>
+  <div id="map"></div>
 
-    <!-- Script principal - TODO centralizado aquí -->
-    <script src="/static/js/script.js"></script>
+  <button id="survey-fab" class="floating-action-button" title="Abrir encuesta">
+    📝
+  </button>
+
+  <div id="survey-modal" class="survey-modal">
+    <div class="survey-modal-content">
+      <div class="survey-modal-header">
+        <h2>Encuesta de Movilidad</h2>
+        <button id="close-survey" class="close-button">&times;</button>
+      </div>
+      <div class="survey-modal-body">
+        <div id="survey123" class="survey-container">
+          <div class="survey-loading">
+            <div class="loading-spinner-modal"></div>
+            <div class="loading-text">Cargando encuesta...</div>
+            <div class="loading-subtitle">Por favor espera un momento</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="survey-overlay" class="survey-overlay"></div>
+
+  <script>
+    window.mapConfig = {
+      apiKey: '{{ mapbox_api_key }}',
+      profile: '{{ profile }}',
+      relPath: '{{ rel_path }}',
+      uuid: '{{ uuid }}',
+      center: [-73.0586, -36.8274],
+      zoom: 13
+    };
+  </script>
+  <script src="/static/js/script.js"></script>
 </body>
 </html>

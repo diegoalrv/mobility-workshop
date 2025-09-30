@@ -1,94 +1,75 @@
-<div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 20px;">
-    <h1 style="color: #333; text-align: center;">🗺️ POIs Manager - Concepción</h1>
-    <p style="text-align: center; color: #666; font-size: 18px;">Sistema de gestión de Points of Interest para Concepción, Chile</p>
-    
-    <div style="background: #f8f9fa; padding: 30px; border-radius: 12px; margin: 30px 0;">
-        <h2 style="color: #495057;">📱 Perfiles Disponibles:</h2>
-        <ul style="list-style: none; padding: 0;">
-            <li style="padding: 10px; margin: 10px 0; background: white; border-radius: 8px; border-left: 4px solid #007bff;">
-                <strong>student</strong> - Estudiantes universitarios
-            </li>
-            <li style="padding: 10px; margin: 10px 0; background: white; border-radius: 8px; border-left: 4px solid #28a745;">
-                <strong>elderly</strong> - Adultos mayores
-            </li>
-            <li style="padding: 10px; margin: 10px 0; background: white; border-radius: 8px; border-left: 4px solid #ffc107;">
-                <strong>tourist</strong> - Turistas
-            </li>
-            <li style="padding: 10px; margin: 10px 0; background: white; border-radius: 8px; border-left: 4px solid #17a2b8;">
-                <strong>families</strong> - Familias con niños
-            </li>
-            <li style="padding: 10px; margin: 10px 0; background: white; border-radius: 8px; border-left: 4px solid #6f42c1;">
-                <strong>office_worker</strong> - Trabajadores de oficina
-            </li>
-            <li style="padding: 10px; margin: 10px 0; background: white; border-radius: 8px; border-left: 4px solid #e83e8c;">
-                <strong>shop_owner</strong> - Comerciantes locales
-            </li>
-        </ul>
-    </div>
-    
-    <div style="background: #e7f3ff; padding: 20px; border-radius: 8px; border: 1px solid #b3d9ff;">
-        <h3 style="color: #0066cc; margin-top: 0;">🔗 Comenzar:</h3>
-        <form id="start-form" style="margin-bottom: 0;">
-            <label for="profile" style="font-weight: bold; color: #0066cc;">Selecciona un perfil:</label>
-            <select id="profile" name="profile" required style="margin: 0 10px 10px 10px; padding: 5px; border-radius: 4px;">
-                <option value="" disabled selected>Elige un perfil</option>
-                <option value="student">Estudiante</option>
-                <option value="elderly">Adulto mayor</option>
-                <option value="tourist">Turista</option>
-                <option value="families">Familia con niños</option>
-                <option value="office_worker">Trabajador de oficina</option>
-                <option value="shop_owner">Comerciante local</option>
-            </select>
-            <div style="margin: 15px 0;">
-                <input type="radio" id="new" name="user_type" value="new" required>
-                <label for="new">Soy un usuario nuevo</label>
-                <input type="radio" id="existing" name="user_type" value="existing" style="margin-left:20px;">
-                <label for="existing">Ya tengo un UUID</label>
-            </div>
-            <div id="uuid-field" style="display:none; margin-bottom: 10px;">
-                <label for="uuid" style="color: #0066cc;">Ingresa tu UUID:</label>
-                <input type="text" id="uuid" name="uuid" style="margin-left: 10px; padding: 5px; border-radius: 4px;">
-            </div>
-            <button type="submit" style="background: #0066cc; color: #fff; border: none; border-radius: 4px; padding: 8px 16px; cursor: pointer;">Continuar</button>
-        </form>
-        <script>
-            const userTypeRadios = document.getElementsByName('user_type');
-            const uuidField = document.getElementById('uuid-field');
-            userTypeRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    uuidField.style.display = this.value === 'existing' ? 'block' : 'none';
-                });
-            });
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Citylab Biobío – Plataforma Urbana</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="home-page">
+  <header class="clb-header">
+    <div class="logo">Citylab Biobío</div>
+  </header>
 
-            document.getElementById('start-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const profile = document.getElementById('profile').value;
-                const userType = document.querySelector('input[name="user_type"]:checked').value;
-                if (!profile) {
-                    alert('Por favor selecciona un perfil.');
-                    return;
-                }
-                if (userType === 'new') {
-                    // Crear nuevo usuario usando el endpoint /join/{perfil}
-                    fetch(`/join/${profile}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            if (data.uuid) {
-                                window.location.href = `/viewer/${profile}/${data.uuid}`;
-                            } else {
-                                alert('Error al crear usuario.');
-                            }
-                        })
-                        .catch(() => alert('Error al crear usuario.'));
-                } else {
-                    const uuid = document.getElementById('uuid').value.trim();
-                    if (!uuid) {
-                        alert('Por favor ingresa tu UUID.');
-                        return;
-                    }
-                    window.location.href = `/viewer/${profile}/${uuid}`;
-                }
-            });
-        </script>
-    </div>
-</div>
+  <main class="home-hero">
+    <h1>🗺️ Plataforma de Datos Urbanos</h1>
+    <p>Explora puntos de interés y áreas clave de Concepción con una interfaz moderna y tecnológica.</p>
+
+    <form id="start-form" class="start-form">
+      <label for="profile" class="label">Selecciona un perfil:</label>
+      <select id="profile" name="profile" required>
+        <option value="" disabled selected>Elige un perfil</option>
+        <option value="student">Estudiante</option>
+        <option value="elderly">Adulto mayor</option>
+        <option value="tourist">Turista</option>
+        <option value="families">Familia con niños</option>
+        <option value="office_worker">Trabajador de oficina</option>
+        <option value="shop_owner">Comerciante local</option>
+      </select>
+
+      <div class="user-type">
+        <label><input type="radio" name="user_type" value="new" required> Nuevo usuario</label>
+        <label><input type="radio" name="user_type" value="existing"> Ya tengo UUID</label>
+      </div>
+
+      <div id="uuid-field" class="uuid-field hidden">
+        <label for="uuid">UUID:</label>
+        <input type="text" id="uuid" name="uuid" />
+      </div>
+
+      <button type="submit" class="btn-primary">Continuar</button>
+    </form>
+  </main>
+
+  <footer class="clb-footer">© 2025 Citylab Biobío</footer>
+
+  <script>
+    const radios = document.getElementsByName('user_type');
+    const uuidField = document.getElementById('uuid-field');
+    radios.forEach(r => r.addEventListener('change', e => {
+      uuidField.classList.toggle('hidden', e.target.value !== 'existing');
+    }));
+
+    document.getElementById('start-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const profile = document.getElementById('profile').value;
+      const userType = document.querySelector('input[name="user_type"]:checked').value;
+      if (!profile) return alert('Selecciona un perfil.');
+      if (userType === 'new') {
+        fetch(`/join/${profile}`).then(r => {
+          if (r.redirected) {
+            window.location.href = r.url;
+          } else {
+            alert('Error al crear usuario.');
+          }
+        }).catch(() => alert('Error al crear usuario.'));
+      } else {
+        const uuid = document.getElementById('uuid').value.trim();
+        if (!uuid) return alert('Ingresa tu UUID.');
+        window.location.href = `/viewer/${profile}/${uuid}`;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -7,15 +7,15 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
+    background-color: #000000;
+    color: #FFFFFF;
     line-height: 1.6;
 }
 
 /* Panel de información */
 .info-panel {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: #000000;
+    color: #FEC31F;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     position: relative;
@@ -24,13 +24,16 @@ body {
 
 .info-panel h1 {
     font-size: 1.8rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 10px;
     text-align: center;
+    color: #FEC31F;
+    letter-spacing: -0.5px;
 }
 
 .info-panel p {
     text-align: center;
+    color: #F5F5F5;
     opacity: 0.9;
     margin-bottom: 15px;
     font-size: 0.95rem;
@@ -45,31 +48,36 @@ body {
 }
 
 .btn {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: #FEC31F;
+    color: #000000;
+    border: 1.5px solid #FEC31F;
     padding: 8px 16px;
     border-radius: 20px;
     cursor: pointer;
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(254, 195, 31, 0.08);
 }
 
-.btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+.btn:hover, .btn:focus {
+    background: #000000;
+    color: #FEC31F;
+    border-color: #FEC31F;
+    box-shadow: 0 4px 12px rgba(254, 195, 31, 0.18);
 }
 
 .btn:active {
-    transform: translateY(0);
+    background: #1C1C1C;
+    color: #FEC31F;
+    border-color: #FEC31F;
 }
 
 .btn.active {
-    background: rgba(255, 255, 255, 0.9);
-    color: #333;
+    background: #000000;
+    color: #FEC31F;
+    border-color: #FEC31F;
 }
 
 /* Mapa */
@@ -77,6 +85,7 @@ body {
     height: calc(100vh - 140px);
     width: 100%;
     position: relative;
+    background: #1C1C1C;
 }
 
 /* Popups de Mapbox */
@@ -86,14 +95,18 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     font-family: inherit;
     max-width: 300px;
+    background: #FFFFFF;
+    color: #000000;
+    border: 1.5px solid #FEC31F;
 }
 
 .mapboxgl-popup-content h3 {
-    color: #333;
+    color: #FEC31F;
     margin-bottom: 8px;
     font-size: 1.1rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #FEC31F;
     padding-bottom: 5px;
+    font-weight: 700;
 }
 
 .mapboxgl-popup-content .property {
@@ -104,13 +117,13 @@ body {
 
 .mapboxgl-popup-content .property-key {
     font-weight: 600;
-    color: #555;
+    color: #555555;
     margin-right: 8px;
     min-width: 80px;
 }
 
 .mapboxgl-popup-content .property-value {
-    color: #333;
+    color: #1C1C1C;
     word-break: break-word;
 }
 
@@ -122,11 +135,12 @@ body {
     transform: translate(-50%, -50%);
     width: 40px;
     height: 40px;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #667eea;
+    border: 3px solid #F5F5F5;
+    border-top: 3px solid #FEC31F;
     border-radius: 50%;
     animation: spin 1s linear infinite;
     z-index: 1000;
+    background: transparent;
 }
 
 @keyframes spin {
@@ -140,13 +154,14 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #ff4757;
-    color: white;
+    background: #FEC31F;
+    color: #000000;
     padding: 15px 25px;
     border-radius: 8px;
-    font-weight: 500;
-    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(254, 195, 31, 0.18);
     z-index: 1000;
+    border: 1.5px solid #000000;
 }
 
 /* =============================================
@@ -160,28 +175,32 @@ body {
     right: 30px;
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
+    background: #FEC31F;
+    border: 2px solid #000000;
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px rgba(254, 195, 31, 0.25);
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 24px;
+    color: #000000;
+    font-size: 28px;
+    font-weight: 700;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.floating-action-button:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+.floating-action-button:hover, .floating-action-button:focus {
+    background: #000000;
+    color: #FEC31F;
+    border-color: #FEC31F;
+    box-shadow: 0 6px 25px rgba(254, 195, 31, 0.35);
 }
 
 .floating-action-button:active {
-    transform: translateY(0) scale(0.95);
+    background: #1C1C1C;
+    color: #FEC31F;
+    border-color: #FEC31F;
 }
 
 /* Animación de pulsación */
@@ -191,7 +210,7 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(254, 195, 31, 0.18);
     opacity: 0;
     transform: scale(0);
     transition: all 0.3s ease;
@@ -209,7 +228,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.88);
     backdrop-filter: blur(8px);
     z-index: 1999;
     opacity: 0;
@@ -236,7 +255,7 @@ body {
     padding: 20px;
     opacity: 0;
     visibility: hidden;
-    transform: scale(0.9);
+    transform: scale(0.96);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -248,44 +267,45 @@ body {
 
 /* Contenido del modal */
 .survey-modal-content {
-    background: white;
+    background: #FFFFFF;
     border-radius: 20px;
     width: 100%;
     max-width: 900px;
     height: 90vh;
     max-height: 800px;
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.45);
     display: flex;
     flex-direction: column;
     overflow: hidden;
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid #FEC31F;
 }
 
 /* Header del modal */
 .survey-modal-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: #000000;
+    color: #FEC31F;
     padding: 25px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid #FEC31F;
 }
 
 .survey-modal-header h2 {
     margin: 0;
     font-size: 1.5rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: -0.5px;
+    color: #FEC31F;
 }
 
 /* Botón de cerrar */
 .close-button {
-    background: rgba(255, 255, 255, 0.15);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    color: white;
+    background: #FEC31F;
+    border: 2px solid #000000;
+    color: #000000;
     width: 44px;
     height: 44px;
     border-radius: 50%;
@@ -301,8 +321,9 @@ body {
 }
 
 .close-button:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.4);
+    background: #000000;
+    color: #FEC31F;
+    border-color: #FEC31F;
     transform: rotate(90deg) scale(1.05);
 }
 
@@ -311,15 +332,15 @@ body {
     flex: 1;
     overflow: hidden;
     position: relative;
-    background: #fafafa;
+    background: #F5F5F5;
 }
 
-/* Contenedor de Survey123 - MEJORADO */
+/* Contenedor de Survey123 */
 .survey-container {
     width: 100%;
     height: 100%;
     position: relative;
-    background: white;
+    background: #FFFFFF;
     border-radius: 0 0 20px 20px;
     overflow: hidden;
 }
@@ -330,19 +351,19 @@ body {
     height: 100% !important;
     border: none !important;
     border-radius: 0 0 20px 20px;
-    background: white;
+    background: #FFFFFF;
     position: relative;
     z-index: 2;
 }
 
-/* Loading state mejorado */
+/* Loading state */
 .survey-loading {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: #F5F5F5;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -354,15 +375,16 @@ body {
 .survey-loading .loading-spinner-modal {
     width: 50px;
     height: 50px;
-    border: 4px solid #e9ecef;
-    border-top: 4px solid #667eea;
+    border: 4px solid #F5F5F5;
+    border-top: 4px solid #FEC31F;
     border-radius: 50%;
     animation: spinModal 1s linear infinite;
     margin-bottom: 20px;
+    background: transparent;
 }
 
 .survey-loading .loading-text {
-    color: #6c757d;
+    color: #555555;
     font-size: 16px;
     font-weight: 500;
     text-align: center;
@@ -370,7 +392,7 @@ body {
 }
 
 .survey-loading .loading-subtitle {
-    color: #adb5bd;
+    color: #1C1C1C;
     font-size: 14px;
     text-align: center;
 }
@@ -391,27 +413,29 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: linear-gradient(135deg, #28a745, #20c997);
-    color: white;
+    background: #000000;
+    color: #FEC31F;
     padding: 35px 45px;
     border-radius: 20px;
-    box-shadow: 0 15px 50px rgba(40, 167, 69, 0.4);
+    box-shadow: 0 15px 50px rgba(254, 195, 31, 0.25);
     z-index: 3000;
     text-align: center;
     animation: successFadeIn 0.5s ease;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid #FEC31F;
 }
 
 .success-content h3 {
     margin: 0 0 12px 0;
     font-size: 1.6rem;
-    font-weight: 600;
+    font-weight: 700;
+    color: #FEC31F;
 }
 
 .success-content p {
     margin: 0;
     opacity: 0.95;
     font-size: 1rem;
+    color: #FFFFFF;
 }
 
 @keyframes successFadeIn {
@@ -427,39 +451,6 @@ body {
 
 /* Responsive design para móviles */
 @media (max-width: 768px) {
-    .info-panel {
-        padding: 15px;
-    }
-    
-    .info-panel h1 {
-        font-size: 1.5rem;
-    }
-    
-    .controls {
-        gap: 10px;
-    }
-    
-    .btn {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-    }
-    
-    #map {
-        height: calc(100vh - 120px);
-    }
-    
-    .mapboxgl-popup-content {
-        max-width: 250px;
-        padding: 12px;
-    }
-
-    .floating-action-button {
-        bottom: 20px;
-        right: 20px;
-        width: 56px;
-        height: 56px;
-    }
-
     .survey-modal {
         padding: 10px;
     }
@@ -509,26 +500,6 @@ body {
 }
 
 @media (max-width: 480px) {
-    .info-panel h1 {
-        font-size: 1.3rem;
-    }
-    
-    .controls {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .btn {
-        min-width: 120px;
-    }
-
-    .floating-action-button {
-        width: 50px;
-        height: 50px;
-        bottom: 15px;
-        right: 15px;
-    }
-
     .survey-modal {
         padding: 5px;
     }
@@ -565,19 +536,6 @@ body {
     }
 }
 
-/* Mapbox control customization */
-.mapboxgl-ctrl-group {
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.mapboxgl-ctrl-group button {
-    background-color: white;
-}
-
-.mapboxgl-ctrl-group button:hover {
-    background-color: #f8f9fa;
-}
-
 /* Estilos adicionales para mejor integración */
 .survey-modal-content::before {
     content: '';
@@ -585,7 +543,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #FEC31F 50%, transparent);
     z-index: 10;
 }
